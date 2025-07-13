@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ParkEase - Welcome</title>
+  <link rel="stylesheet" href="/styles/userHome.css" />
+  
+</head>
+
+<body>
+  <header class="main-header">
+    <div class="logo">ParkEase</div>
+    <nav class="nav-links">
+      <a href="/user/home">Home</a>
+      <a href="/user/dashboard">Dashboard</a>
+      <a href="#book">Book Now</a>
+      <a href="#features">Features</a>
+      {{#if userId}}
+        <a href="/user/bookings">Booking History</a>
+        <a href="/user/logout">Logout</a>
+      {{else}}
+        <a href="/user/login">Login</a>
+      {{/if}}
+      
+       <div style="position: relative;">
+  <input
+    type="text"
+    id="searchInput"
+    class="search-input"
+    placeholder="Search location"
+    oninput="showSuggestions()"
+    autocomplete="off"
+  />
+  <ul
+    id="suggestionsList"
+    style="
+      position: absolute;
+      top: 35px;
+      left: 0;
+      background: white;
+      border: 1px solid #ccc;
+      z-index: 999;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 200px;
+      display: none;
+      color: black;
+     "></ul>
+    </div>
+
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Welcome to ParkEase</h1>
+    <h3>Find and book your perfect parking spot in just a few clicks!</h3>
+    <a href="/user/login" class="btn">Get Started</a>
+  </section>
+
+  <section class="booking-form" id="book">
+    <h2>Book Your Parking Slot</h2>
+    <form id="homeBookingForm" method="POST">
+      <div class="form-group">
+        <label for="slotId">Location</label>
+        <select id="slotId" name="slotId" required>
+          <option value="">Select Location</option>
+          {{#each slots}}
+            <option value="{{this._id}}" data-location="{{this.location}}">
+            {{this.location}} - ₹{{this.price}} ({{this.availableSlot}}/{{this.totalSlot}})
+            </option>
+          {{/each}}
+
+        </select>
+        
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required />
+      </div>
+
+      <div class="form-group">
+        <label for="time">Time</label>
+        <input type="time" id="time" name="time" required />
+      </div>
+
+      <div class="form-group">
+        <label for="duration">Duration (hours)</label>
+        <input type="number" id="duration" name="duration" min="1" required />
+      </div>
+
+      {{#if userId}}
+        <button type="submit" class="submit-button">Book Now</button>
+      {{else}}
+        <a href="/user/login" class="submit-button">Login to Book</a>
+      {{/if}}
+    </form>
+  </section>
+  
+  <section class="reviews">
+  <h2>What Our Users Say</h2>
+  <div class="review-cards">
+    <div class="review">
+      <p>"So convenient! I never stress about parking anymore."</p>
+      <h4>- Riya S., Delhi</h4>
+    </div>
+    <div class="review">
+      <p>"Affordable, fast, and always available near my office!"</p>
+      <h4>- Karan M., Gurgaon</h4>
+    </div>
+    <div class="review">
+      <p>"Smooth booking process and secure locations. Highly recommend."</p>
+      <h4>- Anjali T., Noida</h4>
+    </div>
+  </div>
+</section>
+
+  <section class="features" id="features">
+    <h2>Why Choose ParkEase?</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <img src="/images/safe.png" width="100" />
+        <h3>Secure Parking</h3>
+        <p>24/7 CCTV and guards for your peace of mind.</p>
+      </div>
+      <div class="feature">
+        <img src="/images/booking.png" width="100" />
+        <h3>Easy Booking</h3>
+        <p>Just a few clicks and you're booked.</p>
+      </div>
+      <div class="feature">
+        <img src="/images/affordable.png" width="100" />
+        <h3>Affordable</h3>
+        <p>No hidden charges. Clear pricing.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="user-bookings">
+    <h2>Your Booking Details</h2>
+    <input
+      type="text"
+      id="searchBookingInput"
+      class="search-input"
+      placeholder="Search your bookings"
+      oninput="filterBookingCards()"
+      onkeypress="preventSubmit(event)"
+      style="margin: 10px 0; width: 100%; max-width: 400px;"
+    />
+    {{#if bookings.length}}
+      <div class="bookings-list">
+        {{#each bookings}}
+          <div class="booking-card" data-location="{{this.location}}">
+            <h3>Location: {{this.location}}</h3>
+            <p>Booking Time: {{this.bookingTime}}</p>
+            <p>Price: ₹{{this.price}}</p>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <p>You have no bookings yet. <a href="#book">Book now!</a></p>
+    {{/if}}
+  </section>
+
+  <footer>
+    <p>&copy; 2025 ParkEase. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    function filterLocations() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const options = document.querySelectorAll("#slotId option");
+
+      options.forEach(option => {
+        const location = option.getAttribute("data-location");
+        if (option.value === "") return; // keep default option visible
+        if (location && !location.toLowerCase().includes(input)) {
+          option.style.display = "none";
+        } else {
+          option.style.display = "block";
+        }
+      });
+    }
+
+    
+  </script>
+ 
+
+<script>
+  const allLocations = [
+    {{#each slots}}
+      "{{this.location}}",
+    {{/each}}
+  ];
+
+function showSuggestions() {
+  const input = document.getElementById("searchInput");
+  const list = document.getElementById("suggestionsList");
+  const query = input.value.toLowerCase();
+
+  list.innerHTML = "";
+  list.style.display = "none";
+
+  const allOptions = document.querySelectorAll("#slotId option");
+  allOptions.forEach(option => {
+    if (option.value !== "") {
+      option.style.display = "block";
+    }
+  });
+
+  if (!query) return;
+
+  const matches = allLocations.filter(loc =>
+    loc.toLowerCase().includes(query)
+  );
+
+  if (matches.length === 0) {
+    allOptions.forEach(option => {
+      if (option.value !== "") {
+        option.style.display = "none";
+      }
+    });
+    return;
+  }
+
+  const slotDropdown = document.getElementById("slotId");
+  const options = slotDropdown.options;
+  for (let i = 0; i < options.length; i++) {
+    const opt = options[i];
+    const loc = opt.dataset.location?.toLowerCase() || "";
+    if (opt.value === "") continue; // keep default option visible
+    if (matches.some(m => m.toLowerCase() === loc)) {
+      opt.style.display = "block";
+    } else {
+      opt.style.display = "none";
+    }
+  }
+
+  matches.forEach(location => {
+    const li = document.createElement("li");
+    li.textContent = location;
+    li.style.padding = "8px";
+    li.style.cursor = "pointer";
+    li.addEventListener("click", () => {
+      input.value = location;
+      list.style.display = "none";
+
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].dataset.location === location) {
+          options[i].selected = true;
+          break;
+        }
+      }
+      showSuggestions();
+    });
+    list.appendChild(li);
+  });
+
+  list.style.display = "block";
+}
+
+  document.addEventListener("click", function (event) {
+    const input = document.getElementById("searchInput");
+    const list = document.getElementById("suggestionsList");
+    if (!input.contains(event.target) && !list.contains(event.target)) {
+      list.style.display = "none";
+    }
+  });
+
+  function preventSubmit(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  }
+
+  function filterBookingCards() {
+    const input = document.getElementById("searchBookingInput").value.toLowerCase();
+    const cards = document.querySelectorAll(".booking-card");
+
+    cards.forEach(card => {
+      const location = card.getAttribute("data-location").toLowerCase();
+      card.style.display = location.includes(input) ? "block" : "none";
+    });
+  }
+</script>
+
+<script>
+  document.getElementById("homeBookingForm").addEventListener("submit", function (e) {
+    const slotId = document.getElementById("slotId").value;
+    if (!slotId) {
+      e.preventDefault();
+      alert("Please select a slot location.");
+      return;
+    }
+
+    // Update form action
+    this.action = `/user/slot/${slotId}/book`;
+  });
+</script>
+
+
+</body>
+</html>
+

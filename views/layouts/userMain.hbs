@@ -1,0 +1,29 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/styles/user.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">ParkEase</div>
+        <div class="nav-links">
+            <a href="/user/dashboard">Dashboard</a>
+            <a href="/user/bookings">History</a>
+            <a href="/user/profile">Profile</a>
+            <a href="/user/logout">Logout</a>
+            <a href="/user/home">Home</a>
+        </div>
+    </nav>
+
+    <main>
+        {{{body}}}
+    </main>
+
+    {{#if flash}}
+    <div class="flash">{{flash}}</div>
+    {{/if}}
+</body>
+</html>

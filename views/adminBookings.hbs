@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="/styles/adminBookings.css">
+<h2>Bookings List</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Location</th>
+            <th>Booking Time</th>
+            <th>Duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each bookings}}
+        <tr>
+            <td>{{this.username}}</td>
+            <td>{{this.location}}</td>
+            <td>{{this.bookingTime}}</td>
+            <td>{{this.duration}}</td>
+        </tr>
+        {{else}}
+        <tr>
+            <td colspan="4">No bookings found.</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+

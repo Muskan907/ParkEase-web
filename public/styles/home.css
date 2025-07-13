@@ -1,0 +1,66 @@
+body, html {
+margin: 0;
+padding: 0;
+height: 100%;
+font-family: Arial, sans-serif;
+}
+
+.hero {
+position: relative;
+height: 100vh;
+background: url('/images/car.jpeg') no-repeat center center/cover;
+}
+
+.logo {
+position: absolute;
+top: 5px;
+left: 30px;
+color: #1E88E5;
+font-size: 28px;
+font-weight: bold;
+display: flex;
+align-items: center;
+}
+.logo img {
+    height: 100px;  
+    width: auto;
+}
+
+.overlay {
+position: absolute;
+top: 50%;
+left: 80%;
+height: 100%;
+width:40%;
+transform: translate(-50%, -50%);
+background-color: rgba(0, 0, 0, 0.5);
+color: white;
+padding: 30px;
+border-radius: 10px;
+max-width: 900px;
+max-height: 900px;
+text-align: center;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+
+.overlay p {
+font-size: 16px;
+line-height: 1.5;
+}
+
+.btn {
+background-color: #1E88E5;
+border: none;
+padding: 10px 10px;
+color: white;
+font-size: 16px;
+border-radius: 5px;
+margin-top: 15px;
+cursor: pointer;
+}
+
+.btn:hover {
+background-color: #1565C0;
+}

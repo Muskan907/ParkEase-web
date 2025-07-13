@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="/styles/userBookingHistory.css">
+<h2>Your Booking History</h2>
+
+{{#if bookings.length}}
+    <div class="bookings-list">
+        {{#each bookings}}
+            <div class="booking-card">
+                <h3>Location: {{this.location}}</h3>
+                <p>Booking Time: {{this.bookingTime}}</p>
+                <p>Price: ₹{{this.price}}</p>
+            </div>
+        {{/each}}
+    </div>
+{{else}}
+    <p>You have no booking history.</p>
+{{/if}}
+
+<a href="/user/home">Back to Home</a>
+

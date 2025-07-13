@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/styles/admin.css"> 
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Welcome, {{username}}</h2>
+    <h4>Admin Panel</h4>
+    <a href="/admin/dashboard">Dashboard</a>
+    <a href="/admin/addSlot">Add Slot</a>
+    <a href="/admin/booking">Bookings</a>
+    <a href="/admin/users">Manage Users</a>
+    <a href="/admin/logout">Logout</a>
+</div>
+
+<div class="main-content">
+    <div class="topbar">
+        <h2>Parking Slots</h2>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Available / Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each slots}}
+            <tr>
+                <td>{{this.location}}</td>
+                <td>₹{{this.price}}</td>
+                <td>{{this.availableSlot}} / {{this.totalSlot}}</td>
+                <td>
+                    <a href="/admin/slot/{{this._id}}/edit" class="btn btn-warning">Edit</a>
+                    <a href="/admin/slot/{{this._id}}/delete" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="4">No slots found.</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

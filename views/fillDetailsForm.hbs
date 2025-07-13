@@ -1,0 +1,71 @@
+{{!-- <link rel="stylesheet" href="/styles/bookingDetails.css">
+{{!-- 
+<div class="booking-container">
+  <h2>Complete Your Booking</h2>
+
+  <form action="/booking/submit" method="POST">
+    <label>Name:</label>
+    <input type="text" value="{{user.name}}" disabled>
+
+    <label>Email:</label>
+    <input type="text" value="{{user.email}}" disabled>
+
+    <label>Phone Number:</label>
+    <input type="text" name="phone" required>
+
+    <label>Car Model:</label>
+    <input type="text" name="carModel" required>
+
+    <label>Car Number:</label>
+    <input type="text" name="carNumber" required>
+
+    <label>Address:</label>
+    <textarea name="address" required></textarea>
+
+    <button type="submit">Confirm Booking</button>
+  </form>
+</div> --}}
+{{!-- <h2>Complete Your Booking</h2>
+<form action="/user/fill-details" method="POST">
+  <input type="hidden" name="slotId" value="{{slotId}}">
+  <input type="hidden" name="startTime" value="{{startTime}}">
+  <input type="hidden" name="endTime" value="{{endTime}}">
+  <input type="hidden" name="totalPrice" value="{{totalPrice}}">
+  <input type="hidden" name="paymentId" value="{{paymentId}}">
+
+  <label>Phone Number:</label>
+  <input type="text" name="phone" required>
+
+  <label>Car Model:</label>
+  <input type="text" name="carModel" required>
+
+  <label>Car Number:</label>
+  <input type="text" name="carNumber" required>
+
+  <label>Address:</label>
+  <textarea name="address" required></textarea>
+
+  <button type="submit">Confirm Booking</button>
+</form> --}} 
+
+<h2>Fill Car & Contact Details</h2>
+<form action="/user/fill-details" method="POST">
+  <input type="hidden" name="slotId" value="<%= slotId %>">
+  <input type="hidden" name="startTime" value="<%= startTime %>">
+  <input type="hidden" name="endTime" value="<%= endTime %>">
+  <input type="hidden" name="totalPrice" value="<%= totalPrice %>">
+
+  <label>Phone:</label>
+  <input type="text" name="phone" required><br>
+
+  <label>Car Model:</label>
+  <input type="text" name="carModel" required><br>
+
+  <label>Car Number:</label>
+  <input type="text" name="carNumber" required><br>
+
+  <label>Address:</label>
+  <textarea name="address" required></textarea><br>
+
+  <button type="submit">Confirm Booking</button>
+</form>

@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="/styles/slotDetail.css">
+
+<div class="slot-detail-container">
+    <img class="slot-image" src="{{slot.imageUrl}}" alt="Parking Image">
+
+    <div class="slot-info">
+        <h1>{{slot.location}}</h1>
+        <p><strong>Description:</strong> {{slot.description}}</p>
+        <p><strong>Price:</strong> ₹{{slot.price}}</p>
+        <p><strong>Available Slots:</strong> {{slot.availableSlot}}</p>
+    </div>
+</div>
+
+<div class="booking-section">
+    <h3>Book this Slot</h3>
+    <form action="/user/slot/{{slot._id}}/book" method="POST">
+        <input type="date" name="date" required>
+        <input type="time" name="time" required>
+        <input type="number" name="duration" placeholder="Duration in hours" required>
+        <button type="submit">Book Now</button>
+    </form>
+</div>
+
+<div class="reviews-section">
+    <h3>Reviews:</h3>
+    {{#each slot.reviews}}
+        <div class="review-item">
+            <strong>{{this.username}}</strong>: {{this.rating}}★ - "{{this.comment}}"
+        </div>
+    {{else}}
+        <p>No reviews yet.</p>
+    {{/each}}
+
+    <h4>Add a Review</h4>
+    <form class="add-review-form" action="/user/slot/{{slot._id}}/review" method="POST">
+        <input type="number" name="rating" placeholder="Rating (1-5)" required>
+        <textarea name="comment" placeholder="Comment" required></textarea>
+        <button type="submit">Submit Review</button>
+    </form>
+</div>

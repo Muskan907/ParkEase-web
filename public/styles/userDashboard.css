@@ -1,0 +1,108 @@
+/* Filter Container */
+.filter-container {
+    text-align: center;
+    margin: 20px auto;
+}
+
+#locationFilter {
+    padding: 10px;
+    width: 250px;
+    max-width: 80%;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #c6d2ea;
+    color: #333;
+}
+
+h2, h3 {
+    text-align: center;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 34px;
+}
+
+.slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 30px;
+}
+
+.slot {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.slot:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.slot p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="number"] {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #005fa3;
+}
+
+.details-link {
+    display: block;
+    margin-top: 12px;
+    text-align: left;
+    color: #0077cc;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.details-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .slots-grid {
+        padding: 20px 10px;
+    }
+    h2, h3 {
+        margin-top: 60px;
+    }
+}

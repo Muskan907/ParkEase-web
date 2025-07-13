@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="/styles/userDashboard.css">
+<h2>Welcome, {{username}} </h2>
+<h3>Available Parking Slots:</h3>
+<div class="filter-container">
+    <input type="text" id="locationFilter" placeholder="Search by location...">
+</div>
+<div class="slots-grid">
+    {{#each slots}}
+    <div class="slot">
+        <p>Location: {{this.location}}</p>
+        <p>Price: ₹{{this.price}}</p>
+        <p>Available Slots: {{this.availableSlot}}</p>
+        <form action="/user/slot/{{this._id}}/book" method="POST">
+  <input type="hidden" name="slotId" value="{{this._id}}">
+  <input type="date" name="date" required>
+  <input type="time" name="time" required>
+  <input type="number" name="duration" placeholder="Duration in hours" required>
+  <button type="submit">Book</button>
+</form>
+
+
+        <a href="/user/slot/{{this._id}}" class="details-link">View Details</a>
+    </div>
+{{/each}}
+</div>
+
+<script>
+document.getElementById('locationFilter').addEventListener('input', function () {
+    const filterText = this.value.toLowerCase();
+    const slots = document.querySelectorAll('.slot');
+
+    slots.forEach(slot => {
+        const location = slot.querySelector('p').textContent.toLowerCase();
+        if (location.includes(filterText)) {
+            slot.style.display = 'block';
+        } else {
+            slot.style.display = 'none';
+        }
+    });
+});
+</script>
+

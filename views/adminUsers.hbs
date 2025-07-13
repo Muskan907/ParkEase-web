@@ -1,0 +1,10 @@
+<link rel="stylesheet" href="/styles/adminUsers.css">
+<h2>Registered Users</h2>
+
+{{#each users}}
+<div class="user-card">
+    <p><strong>Username:</strong> {{this.username}}</p>
+    <p><strong>Email:</strong> {{this.email}}</p>
+    <p><strong>Total Bookings:</strong> {{this.bookings.length}}</p>
+</div>
+{{/each}}

@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="/styles/editSlot.css">
+{{!-- <h2>Edit Parking Slot</h2>
+<form action="/admin/slot/{{slot._id}}/edit" method="POST" enctype="multipart/form-data">
+    <label>Location:</label>
+    <input type="text" name="location" value="{{slot.location}}" required><br>
+
+    <label>Price:</label>
+    <input type="number" name="price" value="{{slot.price}}" required><br>
+
+    <label>Available Slot:</label>
+    <input type="number" name="availableSlot" value="{{slot.availableSlot}}" required><br>
+
+    <label>Total Slot:</label>
+    <input type="number" name="totalSlot" value="{{slot.totalSlot}}" required><br>
+
+    <label>Description:</label>
+    <textarea name="description" required>{{slot.description}}</textarea><br>
+
+    <label>Current Image:</label>
+    <img src="{{slot.imageUrl}}" alt="Current Image"><br>
+
+    <label>Change Image:</label>
+    <input type="file" name="image" ><br>
+
+    <button type="submit">Update Slot</button>
+</form> --}}
+<div class="edit-slot-container">
+  <h2>Edit Parking Slot</h2>
+  <form class="edit-slot-form" action="/admin/slot/{{slot._id}}/edit" method="POST" enctype="multipart/form-data">
+    <label>Location:</label>
+    <input type="text" name="location" value="{{slot.location}}" required>
+
+    <label>Price:</label>
+    <input type="number" name="price" value="{{slot.price}}" required>
+
+    <label>Available Slot:</label>
+    <input type="number" name="availableSlot" value="{{slot.availableSlot}}" required>
+
+    <label>Total Slot:</label>
+    <input type="number" name="totalSlot" value="{{slot.totalSlot}}" required>
+
+    <label>Description:</label>
+    <textarea name="description" required>{{slot.description}}</textarea>
+
+    <label>Current Image:</label>
+    <img class="slot-image" src="{{slot.imageUrl}}" alt="Current Image" />
+
+    <label>Change Image:</label>
+    <input type="file" name="image">
+
+    <button type="submit">Update Slot</button>
+  </form>
+</div>
