@@ -20,7 +20,6 @@ async function sendConfirmationEmail(toEmail, userName, bookingDetails) {
         <li><strong>Date:</strong> ${bookingDetails.date}</li>
         <li><strong>Time:</strong> ${bookingDetails.time}</li>
         <li><strong>Slot:</strong> ${bookingDetails.slotName}</li>
-        <li><strong>Price:</strong> ₹${bookingDetails.price}</li>
         </ul>
         <p> Please complete the payment within 24 hours, otherwise it will automatically gets cancelled</p>
       <p>Thank you for booking with ParkEase!</p>

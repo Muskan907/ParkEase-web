@@ -1,4 +1,14 @@
 <link rel="stylesheet" href="/styles/adminBookings.css">
+<div class="sidebar">
+    <h2>Welcome, {{username}}</h2>
+    <h4>Admin Panel</h4>
+    <a href="/admin/dashboard">Dashboard</a>
+    <a href="/admin/addSlot">Add Slot</a>
+    <a href="/admin/booking">Bookings</a>
+    <a href="/admin/users">Manage Users</a>
+    <a href="/admin/logout">Logout</a>
+</div>
+
 <h2>Bookings List</h2>
 
 <table>
@@ -22,6 +32,7 @@
         <tr>
             <td colspan="4">No bookings found.</td>
         </tr>
+        
         {{/each}}
     </tbody>
 </table>

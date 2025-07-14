@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ParkEase - Welcome</title>
   <link rel="stylesheet" href="/styles/userHome.css" />
-  
+  <link rel="stylesheet" href="/styles/chatWidget.css">
 </head>
 
 <body>
@@ -175,7 +175,7 @@
 
       options.forEach(option => {
         const location = option.getAttribute("data-location");
-        if (option.value === "") return; // keep default option visible
+        if (option.value === "") return; 
         if (location && !location.toLowerCase().includes(input)) {
           option.style.display = "none";
         } else {
@@ -230,7 +230,7 @@ function showSuggestions() {
   for (let i = 0; i < options.length; i++) {
     const opt = options[i];
     const loc = opt.dataset.location?.toLowerCase() || "";
-    if (opt.value === "") continue; // keep default option visible
+    if (opt.value === "") continue; 
     if (matches.some(m => m.toLowerCase() === loc)) {
       opt.style.display = "block";
     } else {
@@ -295,12 +295,20 @@ function showSuggestions() {
       return;
     }
 
-    // Update form action
     this.action = `/user/slot/${slotId}/book`;
   });
 </script>
 
+<button id="chat-button">💬</button>
+<div id="chat-box" style="display: none;">
+    <div id="chat-messages"></div>
+    <input type="text" id="chat-input" placeholder="Type a message..." />
+    <button id="send-chat">Send</button>
+</div>
 
+<script src="/socket.io/socket.io.js"></script>
+<input type="hidden" id="userId" value="{{userId}}">
+<script src="/js/chatWidget.js"></script>
 </body>
 </html>
 

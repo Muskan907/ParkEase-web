@@ -1,10 +1,43 @@
 <link rel="stylesheet" href="/styles/adminUsers.css">
-<h2>Registered Users</h2>
+<div class="sidebar">
+    <h2>Welcome, {{username}}</h2>
+    <h4>Admin Panel</h4>
+    <a href="/admin/dashboard">Dashboard</a>
+    <a href="/admin/addSlot">Add Slot</a>
+    <a href="/admin/booking">Bookings</a>
+    <a href="/admin/users">Manage Users</a>
+    <a href="/admin/logout">Logout</a>
+</div>
+
+<div class="main-content">
+  <h2>Registered Users</h2>
 
 {{#each users}}
-<div class="user-card">
+<div class="user-card" onclick="toggleDetails('{{@index}}')">
     <p><strong>Username:</strong> {{this.username}}</p>
     <p><strong>Email:</strong> {{this.email}}</p>
     <p><strong>Total Bookings:</strong> {{this.bookings.length}}</p>
+
+    <div id="details-{{@index}}" class="user-details" style="display:none;">
+        {{#each this.bookings}}
+        <div class="booking-detail">
+            <p><strong>Location:</strong> {{this.location}}</p>
+            <p><strong>Booking Time:</strong> {{this.bookingTime}}</p>
+            <p><strong>Duration:</strong> {{this.duration}}</p>
+            <p><strong>Phone Number:</strong> {{this.phoneNumber}}</p>
+            <p><strong>Car Number:</strong> {{this.carNumber}}</p>
+            <p><strong>Car Model:</strong> {{this.carModel}}</p>
+            <p><strong>Address:</strong> {{this.address}}</p>
+        </div>
+        <hr>
+        {{/each}}
+    </div>
 </div>
 {{/each}}
+
+<script>
+  function toggleDetails(index) {
+    const details = document.getElementById(`details-${index}`);
+    details.style.display = details.style.display === 'none' ? 'block' : 'none';
+  }
+</script>

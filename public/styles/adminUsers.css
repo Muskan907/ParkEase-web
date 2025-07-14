@@ -1,39 +1,60 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color:  #e9f3fd;
-    margin: 0;
-    padding: 20px;
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background-color: #2c3e50;
+    color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+}
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+}
+.sidebar h4 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+}
+
+.sidebar a:hover {
+    background-color: #34495e;
+    border-radius: 4px;
 }
 
 h2 {
     text-align: center;
-    color: #333;
+    color: #221f1f;
     margin-bottom: 30px;
 }
-
 .user-card {
-    background-color: #c5c4c4;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 16px 20px;
+  background-color: #ccc;
+  padding: 15px;
+  margin-bottom: 10px;
+  width: 90%;
+    max-width: 600px;
     margin: 12px auto;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .user-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  background-color: #bbb;
 }
 
-.user-card p {
-    margin: 8px 0;
-    color: #120101;
-    font-size: 15px;
-}
-
-.user-card strong {
-    color: #1e88e5;
+.user-details {
+  margin-top: 10px;
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 6px;
 }

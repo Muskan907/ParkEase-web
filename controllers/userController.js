@@ -158,86 +158,6 @@ module.exports.addReview = async (req, res) => {
     res.redirect(`/user/slot/${req.params.id}`);
 };
 
-// module.exports.bookFromDetails = async (req, res) => {
-//     const { date, time, duration } = req.body;
-//     const slotId = req.params.id;
-//     const user = await User.findById(req.session.userId);
-//     const adminWithSlot = await Admin.findOne({ "slots._id": slotId });
-
-//     const slot = adminWithSlot.slots.id(slotId);
-//     if (slot.availableSlot <= 0) return res.send("No slots available.");
-
-//     slot.availableSlot--;
-//     slot.bookedUsers.push({
-//         userId: user._id,
-//         username: user.username,
-//         bookingTime: `${date} ${time}`,
-//         duration
-//     });
-
-//     await adminWithSlot.save();
-
-//     user.bookings.push({
-//         slotId: slot._id,
-//         location: slot.location,
-//         bookingTime: `${date} ${time}`,
-//         price: slot.price
-//     });
-
-//     await sendConfirmationEmail(
-//     user.email,
-//     user.username,
-//     {
-//         date: date,
-//         time: time,
-//         slotName: slot.location
-//     }
-// );
-
-//     await user.save();
-
-//     res.redirect('/user/confirmation');
-// };
-// module.exports.bookFromDetails = async (req, res) => {
-//     const { date, time, duration } = req.body;
-//     const slotId = req.params.id;
-
-//     try {
-//         const user = await User.findById(req.session.userId);
-//         const adminWithSlot = await Admin.findOne({ "slots._id": slotId });
-
-//         if (!adminWithSlot) return res.status(404).send("Slot not found.");
-
-//         const slot = adminWithSlot.slots.id(slotId);
-//         if (!slot || slot.availableSlot <= 0) return res.send("No slots available.");
-
-//         const startTime = new Date(`${date} ${time}`);
-//         const endTime = new Date(startTime.getTime() + duration * 60 * 60 * 1000);
-//         const totalPrice = slot.price * duration;
-
-//         // Temporarily store booking info in session
-//         req.session.tempBooking = {
-//             slotId: slot._id,
-//             slotLocation: slot.location,
-//             price: slot.price,
-//             startTime,
-//             endTime,
-//             duration,
-//             totalPrice
-//         };
-
-//         req.session.save(() => {
-//     res.redirect('/user/fill-details');
-// });
-//         // Redirect to form where user fills phone/car details
-//         // return res.redirect('/user/fill-details');
-
-//     } catch (err) {
-//         console.error(err);
-//         return res.status(500).send("Error preparing booking");
-//     }
-// };
-
 module.exports.bookFromDetails = async (req, res) => {
     const { date, time, duration } = req.body;
     const slotId = req.params.id;
@@ -280,43 +200,6 @@ module.exports.bookFromDetails = async (req, res) => {
     }
 };
 
-// module.exports.submitBookingDetails = async (req, res) => {
-//   const {
-//     slotId,
-//     startTime,
-//     endTime,
-//     totalPrice,
-//     paymentId,
-//     phone,
-//     carModel,
-//     carNumber,
-//     address
-//   } = req.body;
-
-//   try {
-//     const booking = new Booking({
-//       userId: req.session.userId,
-//       slotId,
-//       startTime: new Date(startTime),
-//       endTime: new Date(endTime),
-//       paymentId,
-//       totalPrice,
-//       phone,
-//       carModel,
-//       carNumber,
-//       address
-//     });
-
-//     await booking.save();
-
-//     // Send email if you want (optional)
-
-//     res.redirect('/user/confirmation');
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send('Booking failed');
-//   }
-// };
 module.exports.submitBookingDetails = async (req, res) => {
   const { paymentId, phone, carModel, carNumber, address } = req.body;
   const temp = req.session.tempBooking;

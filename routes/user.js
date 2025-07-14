@@ -5,8 +5,16 @@ const { ensureAuthenticated } = require('../middlewares/auth');
 const Booking = require('../models/booking');
 
 router.get('/', (req, res) => {
-    res.render('userHome', { layout: false });  
+    const user = req.user || req.session.user;
+    const userId = req.session.userId;
+
+    res.render('userHome', {
+        layout: false,
+        user: user || {},
+        userId: userId
+    });
 });
+
 
 router.get('/login-options', (req, res) => {
     res.render('loginOptions', { title: 'Login Options' });
@@ -29,10 +37,6 @@ router.get('/slot/:id', ensureAuthenticated, userController.viewSlotDetails);
 router.post('/slot/:id/review', ensureAuthenticated, userController.addReview);
 router.post('/slot/:id/book', ensureAuthenticated, userController.bookFromDetails);
 
-// router.get('/fill-details', ensureAuthenticated, (req, res) => {
-//   res.render('fillDetailsForm', { layout: 'userMain' });
-// });
-
 router.get('/fill-details', ensureAuthenticated, (req, res) => {
   const temp = req.session.tempBooking;
   console.log("Temp booking session:", temp);
@@ -49,4 +53,10 @@ router.get('/fill-details', ensureAuthenticated, (req, res) => {
 
 
 router.post('/fill-details', ensureAuthenticated, userController.submitBookingDetails);
+
+router.get('/chat', (req, res) => {
+    if (!req.session.userId) return res.redirect('/login');
+    res.render('userChat', { userId: req.session.userId });
+});
+
 module.exports = router;

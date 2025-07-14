@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="/styles/adminChat.css">
+<div class="sidebar">
+    <h2>Welcome, {{username}}</h2>
+    <h4>Admin Panel</h4>
+    <a href="/admin/dashboard">Dashboard</a>
+    <a href="/admin/addSlot">Add Slot</a>
+    <a href="/admin/booking">Bookings</a>
+    <a href="/admin/users">Manage Users</a>
+    <a href="/admin/logout">Logout</a>
+    <a href="/admin/chat">Live Chat</a>
+</div>
+
+<h2>Admin Chat Dashboard</h2>
+<div id="users">
+  {{#each users}}
+    <button onclick="startChat('{{this._id}}')">Chat with {{this.username}}</button>
+  {{/each}}
+</div>
+
+<div id="chatSection" style="display:none;">
+  <div id="chatBox" style="height:300px; overflow:auto; border:1px solid #ccc; padding:10px;"></div>
+  <input type="text" id="message">
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  let currentUser = "";
+
+  function startChat(userId) {
+    currentUser = userId;
+    socket.emit('joinRoom', userId);
+    document.getElementById('chatSection').style.display = 'block';
+  }
+
+  function sendMessage() {
+    const msg = document.getElementById('message').value.trim();
+    if (!msg || !currentUser) return;
+
+    socket.emit('adminMessage', { userId: currentUser, message: msg });
+    document.getElementById('message').value = '';
+  }
+
+  socket.on('newMessage', (data) => {
+    const box = document.getElementById('chatBox');
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>${data.sender}:</strong> ${data.message}`;
+    box.appendChild(p);
+    box.scrollTop = box.scrollHeight;
+  });
+</script>

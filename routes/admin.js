@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router(); 
 const upload = require('../utils/multer');   
 const adminController = require('../controllers/adminController');
+const Admin = require('../models/admin');
+const User = require('../models/user');
 
 const isAuthenticated = (req, res, next) => {
     if (!req.session.adminId) {
@@ -37,5 +39,18 @@ router.get('/slot/:id/delete', isAuthenticated, adminController.deleteParkingSlo
 router.get('/booking', adminController.viewBookings);
 router.get('/users', adminController.viewUsers);
 
+router.get('/chat', isAuthenticated, async (req, res) => {
+    try {
+        const admin = await Admin.findById(req.session.adminId).lean();
+        if (!admin) return res.redirect('/admin/login');
+
+        const users = await User.find({}, 'username _id').lean(); 
+
+        res.render('adminChat', { username: admin.username, users });
+    } catch (err) {
+        console.error("Error loading chat page:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
 module.exports = router;
 

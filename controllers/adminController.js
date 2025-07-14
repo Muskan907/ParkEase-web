@@ -154,8 +154,19 @@ module.exports.viewBookings = async (req, res) => {
 
 module.exports.viewUsers = async (req, res) => {
     try {
-        const users = await User.find().lean();  
-        res.render('adminUsers', { users });
+        const admin = await Admin.findById(req.session.adminId).lean();
+        if (!admin) return res.redirect('/admin/login');
+
+        const adminSlotLocations = admin.slots.map(slot => slot.location); // Or use slot._id if you store slotId in booking
+
+        const users = await User.find({
+            bookings: {
+                $elemMatch: {location: { $in: adminSlotLocations }}
+            }
+        }).lean();
+
+        res.render('adminUsers', { users, username: admin.username  });
+
     } catch (err) {
         console.error(err);
         res.status(500).send('Error fetching users');

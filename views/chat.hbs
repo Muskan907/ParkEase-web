@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="/styles/admin.css">
+
+<div class="sidebar">
+  <h2>Welcome, {{username}}</h2>
+  <h4>Admin Panel</h4>
+  <a href="/admin/dashboard">Dashboard</a>
+  <a href="/admin/addSlot">Add Slot</a>
+  <a href="/admin/booking">Bookings</a>
+  <a href="/admin/users">Manage Users</a>
+  <a href="/admin/chat">Live Chat</a>
+  <a href="/admin/logout">Logout</a>
+</div>
+
+<div class="main-content">
+  <h2>Live Chat</h2>
+  <div id="messages" style="border:1px solid #ccc; height:300px; overflow:auto;"></div>
+  <input id="chatInput" placeholder="Type your message" />
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const sender = "{{username}}";
+
+  function sendMessage() {
+    const input = document.getElementById("chatInput");
+    const message = input.value;
+    if (message.trim() !== "") {
+      socket.emit("chat message", {sender, message});
+      input.value = "";
+    }
+  }
+
+  socket.on("chat message", (data) => {
+    const msgBox = document.getElementById("messages");
+    const p = document.createElement("p");
+    p.innerHTML = `<strong>${data.sender}:</strong> ${data.message}`;
+    msgBox.appendChild(p);
+    msgBox.scrollTop = msgBox.scrollHeight; 
+  });
+</script>
+
+<div id="messages" style="border:1px solid #ccc; height:300px; overflow:auto;"></div>
+<input id="chatInput" placeholder="Type your message" />
+<button onclick="sendMessage()">Send</button>

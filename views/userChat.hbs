@@ -1,0 +1,26 @@
+<h2>Live Chat with Admin</h2>
+<div id="chatBox" style="height:300px; overflow:auto; border:1px solid #ccc; padding:10px;"></div>
+<input type="text" id="message" placeholder="Type a message">
+<button onclick="sendMessage()">Send</button>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const userId = "{{userId}}";
+
+  socket.emit('joinRoom', userId);
+
+  function sendMessage() {
+    const msg = document.getElementById('message').value;
+    socket.emit('userMessage', { userId, message: msg });
+    document.getElementById('message').value = '';
+  }
+
+  socket.on('newMessage', (data) => {
+    const box = document.getElementById('chatBox');
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>${data.sender}:</strong> ${data.message}`;
+    box.appendChild(p);
+    box.scrollTop = box.scrollHeight;
+  });
+</script>

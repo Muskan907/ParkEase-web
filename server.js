@@ -9,6 +9,11 @@ const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const passport = require('./config/passport');
 const passportModule = require('passport');
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+
+const io = new Server(server);
 
 require('dotenv').config();
 
@@ -57,8 +62,55 @@ app.get('/start', (req, res) => {
 
 mongoose.connect(process.env.DB_PATH).then(()=>{
     console.log('MongoDB Connected');
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
    });
 });
 
+const Chat = require('./models/chat');
+
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('chat message', (data) => {
+    console.log("Chat message:", data);
+    io.emit('chat message', {
+      sender: data.sender,
+      message: data.message
+    });
+  });
+
+  socket.on('joinRoom', (userId) => {
+    console.log(`User joined room: ${userId}`);
+    socket.join(userId);
+  });
+
+socket.on('userMessage', async ({ userId, message }) => {
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    console.error("Invalid userId received:", userId);
+    return;
+  }
+
+  await Chat.findOneAndUpdate(
+    { userId },
+    { $push: { messages: { sender: 'user', message } } },
+    { upsert: true }
+  );
+
+  io.to(userId).emit('newMessage', { sender: 'user', message });
+});
+
+  socket.on('adminMessage', async ({ userId, message }) => {
+    console.log(`Admin to user (${userId}): ${message}`);
+    await Chat.findOneAndUpdate(
+      { userId },
+      { $push: { messages: { sender: 'admin', message } } },
+      { upsert: true }
+    );
+    io.to(userId).emit('newMessage', { sender: 'admin', message });
+  });
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+});

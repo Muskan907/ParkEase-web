@@ -1,29 +1,15 @@
 <link rel="stylesheet" href="/styles/editSlot.css">
-{{!-- <h2>Edit Parking Slot</h2>
-<form action="/admin/slot/{{slot._id}}/edit" method="POST" enctype="multipart/form-data">
-    <label>Location:</label>
-    <input type="text" name="location" value="{{slot.location}}" required><br>
 
-    <label>Price:</label>
-    <input type="number" name="price" value="{{slot.price}}" required><br>
+<div class="sidebar">
+    <h2>Welcome, {{username}}</h2>
+    <h4>Admin Panel</h4>
+    <a href="/admin/dashboard">Dashboard</a>
+    <a href="/admin/addSlot">Add Slot</a>
+    <a href="/admin/booking">Bookings</a>
+    <a href="/admin/users">Manage Users</a>
+    <a href="/admin/logout">Logout</a>
+</div>
 
-    <label>Available Slot:</label>
-    <input type="number" name="availableSlot" value="{{slot.availableSlot}}" required><br>
-
-    <label>Total Slot:</label>
-    <input type="number" name="totalSlot" value="{{slot.totalSlot}}" required><br>
-
-    <label>Description:</label>
-    <textarea name="description" required>{{slot.description}}</textarea><br>
-
-    <label>Current Image:</label>
-    <img src="{{slot.imageUrl}}" alt="Current Image"><br>
-
-    <label>Change Image:</label>
-    <input type="file" name="image" ><br>
-
-    <button type="submit">Update Slot</button>
-</form> --}}
 <div class="edit-slot-container">
   <h2>Edit Parking Slot</h2>
   <form class="edit-slot-form" action="/admin/slot/{{slot._id}}/edit" method="POST" enctype="multipart/form-data">
