@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
-const PORT = 3000 ;
+const PORT = process.env.PORT || 3000 ;
 const app = express();
 const dotenv = require('dotenv');
 const session = require('express-session');
@@ -60,12 +60,19 @@ app.get('/start', (req, res) => {
     res.render('start');
 });
 
-mongoose.connect(process.env.DB_PATH).then(()=>{
+// mongoose.connect(process.env.DB_PATH).then(()=>{
+//     console.log('MongoDB Connected');
+//     server.listen(PORT, () => {
+//     console.log(`Server running at http://localhost:${PORT}`);
+//    });
+// });
+mongoose.connect(process.env.DB_PATH).then(() => {
     console.log('MongoDB Connected');
     server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-   });
+        console.log(`Server running on port ${PORT}`);
+    });
 });
+
 
 const Chat = require('./models/chat');
 
