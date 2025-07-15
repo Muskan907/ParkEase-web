@@ -157,7 +157,7 @@ module.exports.viewUsers = async (req, res) => {
         const admin = await Admin.findById(req.session.adminId).lean();
         if (!admin) return res.redirect('/admin/login');
 
-        const adminSlotLocations = admin.slots.map(slot => slot.location); // Or use slot._id if you store slotId in booking
+        const adminSlotLocations = admin.slots.map(slot => slot.location); 
 
         const users = await User.find({
             bookings: {
