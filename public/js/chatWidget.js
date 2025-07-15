@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chatBtn.addEventListener("click", () => {
         if (!isConnected) {
-            socket.connect(); // connect socket manually
+            socket.connect(); 
             socket.emit("joinRoom", userId);
             isConnected = true;
         }

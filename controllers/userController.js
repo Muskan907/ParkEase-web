@@ -175,7 +175,6 @@ module.exports.bookFromDetails = async (req, res) => {
         const endTime = new Date(startTime.getTime() + duration * 60 * 60 * 1000);
         const totalPrice = slot.price * duration;
 
-        // Save in session
         req.session.tempBooking = {
             slotId: slot._id,
             slotLocation: slot.location,
@@ -223,11 +222,8 @@ module.exports.submitBookingDetails = async (req, res) => {
     });
 
     await booking.save();
-
-    // Optional: Clear tempBooking after saving
     req.session.tempBooking = null;
 
-    // Optional: Save session before redirecting
     req.session.confirmation = {
       bookingTime: temp.startTime,
       location: temp.slotLocation
@@ -241,6 +237,6 @@ module.exports.submitBookingDetails = async (req, res) => {
     console.error("Booking failed:", err);
     res.status(500).send('Booking failed');
   }
-  console.log("✅ bookFromDetails route triggered");
+  console.log("bookFromDetails route triggered");
 console.log("Form data:", req.body);
 };
