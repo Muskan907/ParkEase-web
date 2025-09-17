@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,21 +8,30 @@
     <link rel="stylesheet" href="/styles/adminLogin.css">
 </head>
 <body>
-
 <div class="login-container">
     <h2>Admin Login</h2>
-    <form action="/admin/login" method="POST">
-    {{#if error}}
-        <div class="error">{{error}}</div>
-    {{/if}}
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Login</button>
-</form>
-<p style="text-align:center; margin-top: 10px;">
-    New here? <a href="/admin/register">Register</a>
-</p>
-</div>
 
+    <!-- Login Form -->
+    <form action="/admin/login" method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="text" name="otp" placeholder="Enter OTP" required>
+        <button type="submit">Login</button>
+    </form>
+
+    {{!-- <!-- Resend Code -->
+    <form action="/admin/resendCode" method="POST" class="resend-form">
+        <input type="text" name="username" placeholder="Enter Username" required>
+        <button type="submit">Resend Code</button>
+    </form> --}}
+
+    {{#if error}}
+      <p class="error">{{error}}</p>
+    {{/if}}
+
+    <p class="register-link">
+        New here? <a href="/admin/register">Register</a>
+    </p>
+</div>
 </body>
 </html>

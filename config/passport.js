@@ -16,8 +16,13 @@ passport.deserializeUser(async (id, done) => {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: '/auth/google/callback'
-}, async (accessToken, refreshToken, profile, done) => {
+  callbackURL: '/auth/google/callback',
+  passReqToCallback: true
+}, async (req, accessToken, refreshToken, profile, done) => {
+  if (!profile) {
+    return done(new Error('No profile returned from Google'));
+  }
+  
   let user = await User.findOne({ googleId: profile.id });
   if (!user) {
     user = await new User({

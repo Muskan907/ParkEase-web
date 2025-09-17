@@ -1,3 +1,4 @@
+{{!-- 
 <link rel="stylesheet" href="/styles/adminLogin.css">
 <div class="login-container">
     <h2>Admin Register</h2>
@@ -5,12 +6,45 @@
         {{#if error}}
             <div class="error">{{error}}</div>
         {{/if}}
+
+        <!-- Username -->
         <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
+
+        
+        <input type="email" name="gmail" placeholder="Gmail" 
+       pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" 
+       title="Email must be a valid Gmail address" required>
+<input type="tel" name="phone" placeholder="Phone Number" 
+       pattern="^[0-9]{10}$" title="Phone number must be exactly 10 digits" required>
+<input type="password" name="password" placeholder="ParkEase Password" required>
         <button type="submit">Register</button>
     </form>
+
+    <p style="text-align:center; margin-top: 10px;">
+        Already have an account? <a href="/admin/login">Login</a>
+    </p>
+</div> --}}
+
+<link rel="stylesheet" href="/styles/adminLogin.css">
+<div class="login-container">
+    <h2>Admin Register</h2>
+    <form action="/admin/register" method="POST">
+        {{#if error}}
+            <div class="error">{{error}}</div>
+        {{/if}}
+
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="email" name="gmail" placeholder="Gmail" 
+               pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" 
+               title="Email must be a valid Gmail address" required>
+        <input type="tel" name="phone" placeholder="Phone Number" 
+               pattern="^[0-9]{10}$" title="Phone number must be exactly 10 digits" required>
+        <input type="password" name="password" placeholder="ParkEase Password" required>
+
+        <button type="submit">Register</button>
+    </form>
+
     <p style="text-align:center; margin-top: 10px;">
         Already have an account? <a href="/admin/login">Login</a>
     </p>
 </div>
-

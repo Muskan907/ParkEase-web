@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
@@ -12,16 +13,22 @@ const passportModule = require('passport');
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
-
+const bodyParser = require('body-parser');
 const io = new Server(server);
+const { sendOTPEmail } = require('./utils/mailer');
+const Admin = require('./models/admin');
 
-require('dotenv').config();
+
+// require('dotenv').config();
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.set('view engine','hbs');
 app.use('/uploads', express.static('uploads'));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(session({ secret: process.env.ADMIN_SECRET, resave: false, saveUninitialized: true }));
 
 app.use(session({
     secret: 'yourSecretKey',
@@ -69,7 +76,7 @@ app.get('/start', (req, res) => {
 mongoose.connect(process.env.DB_PATH).then(() => {
     console.log('MongoDB Connected');
     server.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
+        console.log(`Server running on port http://localhost:${PORT}`);
     });
 });
 
@@ -120,4 +127,66 @@ socket.on('userMessage', async ({ userId, message }) => {
   socket.on('disconnect', () => {
     console.log('A user disconnected');
   });
+});
+
+// // -------------------------
+// // Admin login route + OTP
+// // -------------------------
+// app.post('/admin/login', async (req, res) => {
+//   const { username, password } = req.body;
+
+//   // Verify username & ParkEase password in DB
+//   const admin = await Admin.findOne({ username });
+//   if (!admin || admin.password !== password) {
+//     return res.render('login', { error: 'Invalid credentials' });
+//   }
+
+//   // Generate OTP
+//   const otp = Math.floor(100000 + Math.random() * 900000);
+//   req.session.otp = otp;
+//   req.session.adminId = admin._id;
+
+//   // Send OTP via dedicated ParkEase email
+//   try {
+//     await sendOTPEmail(admin.gmail, otp);
+//     res.render('verifyOtp', { message: 'OTP sent to your email' });
+//   } catch (err) {
+//     console.error(err);
+//     res.render('login', { error: 'Failed to send OTP' });
+//   }
+// });
+
+// // OTP verification route
+// app.post('/admin/verify-otp', (req, res) => {
+//   const { otp } = req.body;
+
+//   if (parseInt(otp) === req.session.otp) {
+//     // OTP correct, log in admin
+//     res.redirect('/admin/dashboard');
+//   } else {
+//     res.render('verifyOtp', { error: 'Invalid OTP, try again' });
+//   }
+// });
+// Fixed OTP login route
+app.post('/admin/login', async (req, res) => {
+    const { username, password, loginCode } = req.body;
+
+    try {
+        const admin = await Admin.findOne({ username });
+        if (!admin || admin.password !== password) {
+            return res.render('login', { error: 'Invalid username or password' });
+        }
+
+        if (loginCode !== admin.otp) { // Check fixed OTP stored in DB
+            return res.render('login', { error: 'Invalid OTP' });
+        }
+
+        // Log in admin using session
+        req.session.adminId = admin._id;
+        res.redirect('/admin/dashboard');
+
+    } catch (err) {
+        console.error("Login error:", err);
+        res.render('login', { error: 'Server error' });
+    }
 });
